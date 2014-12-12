@@ -1,0 +1,21 @@
+provider connection string="data source=localhost:1521/XE;
+persist security info=True;user id=HR, password= hr"
+
+create table example (
+    id number not null,
+    name varchar2(30),
+    constraint example_pk primary key(id) 
+);
+
+create sequence example_id_seq start with 1 increment by 1;
+
+create or replace trigger example_insert
+before insert on example
+for each row
+begin
+    select example_id_seq.nextval into :new.id from dual;
+end;
+
+insert into example (id, name) values (1, 'Earl');
+insert into example (name) values ('Cleopatra');
+insert into example (name) values ('Frankenstein');
